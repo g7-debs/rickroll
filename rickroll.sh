@@ -77,6 +77,7 @@ for org in ${ORGS[@]}; do
 EOF
 				) \
 				https://api.travis-ci.com/repo/$(echo ${repo} | sed 's,/,%2F,g')/env_vars \
+				&> /dev/null \
 				|| error "Unable to set variable ${var} for repo ${repo}"
 		done
 	done
