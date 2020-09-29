@@ -62,7 +62,7 @@ for org in ${ORGS[@]}; do
 					;;
 			esac
 
-			echo "Setting ${var} for repo ${repo} (target_branch is ${target_branch}"
+			echo "Setting ${var} for repo ${repo} (target_branch is ${target_branch})"
 			curl -X POST \
 				-H "Content-Type: application/json" \
 				-H "Travis-API-Version: 3" \
@@ -77,7 +77,6 @@ for org in ${ORGS[@]}; do
 EOF
 				) \
 				https://api.travis-ci.com/repo/$(echo ${repo} | sed 's,/,%2F,g')/env_vars \
-				&> /dev/null \
 				|| error "Unable to set variable ${var} for repo ${repo}"
 		done
 	done
