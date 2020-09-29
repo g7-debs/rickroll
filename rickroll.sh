@@ -44,7 +44,7 @@ for org in ${ORGS[@]}; do
 			continue
 		fi
 
-		travis env --pro clear
+		travis env --pro clear --repo ${repo}
 
 		for var in ${VARIABLES[@]}; do
 			# FIXME! Switch back to travis-cli once it supports per-branch
