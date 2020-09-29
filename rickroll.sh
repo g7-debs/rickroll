@@ -35,7 +35,7 @@ fi
 travis login --pro --github-token "${GITHUB_ACCESS_TOKEN}"
 
 # Obtain access token to use with the curl workaround
-_TRAVIS_AUTH_TOKEN=$(grep -oP 'access_token: [0-9a-zA-Z]+' ~/.travis/config.yml | awk '{ print $2 }')
+_TRAVIS_AUTH_TOKEN=$(grep -oP 'access_token: .+' ~/.travis/config.yml | awk '{ print $2 }')
 
 for org in ${ORGS[@]}; do
 	repos=$(travis repos --pro -o ${org} -a --no-interactive)
