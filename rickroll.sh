@@ -57,6 +57,9 @@ for org in ${ORGS[@]}; do
 					# Target is bullseye
 					target_branch="bullseye"
 					;;
+				*)
+					target_branch=""
+					;;
 			esac
 
 			echo "Setting ${var} for repo ${repo} (target_branch is ${target_branch}"
