@@ -34,6 +34,9 @@ fi
 
 travis login --pro --github-token "${GITHUB_ACCESS_TOKEN}"
 
+# Obtain access token to use with the curl workaround
+_TRAVIS_AUTH_TOKEN=$(grep -oP 'access_token: [0-9a-zA-Z]+' ~/.travis/config.yml | awk '{ print $2 }')
+
 for org in ${ORGS[@]}; do
 	repos=$(travis repos --pro -o ${org} -a --no-interactive)
 	for repo in ${repos}; do
@@ -41,8 +44,38 @@ for org in ${ORGS[@]}; do
 			continue
 		fi
 
+		travis env --pro clear
+
 		for var in ${VARIABLES[@]}; do
-			travis env --pro set ${var} "${!var}" --private --repo ${repo}
+			# FIXME! Switch back to travis-cli once it supports per-branch
+			# env vars
+			#travis env --pro set ${var} "${!var}" --private --repo ${repo}
+
+			# Select target branch
+			case "${var}" in
+				"RELEASES_TOKEN" | "GPG_STAGINGPRODUCTION_SIGNING_KEY" |"GPG_STAGINGPRODUCTION_SIGNING_KEYID")
+					# Target is bullseye
+					target_branch="bullseye"
+					;;
+			esac
+
+			echo "Setting ${var} for repo ${repo} (target_branch is ${target_branch}"
+			curl -X POST \
+				-H "Content-Type: application/json" \
+				-H "Travis-API-Version: 3" \
+				-H "Authorization: token ${_TRAVIS_AUTH_TOKEN}" \
+				-d @<(cat <<EOF
+{
+	"env_var.name" : "${var}",
+	"env_var.value" : "${!var}",
+	"env_var.public" : false,
+	"env_var.branch" : "${target_branch}"
+}
+EOF
+				) \
+				https://api.travis-ci.com/repo/$(echo ${repo} | sed 's,/,%2F,g')/env_vars \
+				&> /dev/null \
+				|| error "Unable to set variable ${var} for repo ${repo}"
 		done
 	done
 done
