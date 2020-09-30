@@ -66,7 +66,7 @@ for org in ${ORGS[@]}; do
 			case "${var}" in
 				"GPG_FEATURE_SIGNING_KEY" | "GPG_STAGINGPRODUCTION_SIGNING_KEY")
 					target_var=$(echo "${!var}" | awk 1 ORS='\\n')
-					target_var="\"\$(echo -e '${target_var}')\""
+					target_var="\\\"\$(echo -e '${target_var}')\\\""
 					;;
 				*)
 					target_var="${!var}"
