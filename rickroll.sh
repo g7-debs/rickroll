@@ -3,8 +3,8 @@
 declare -a VARIABLES
 VARIABLES=(
 	RELEASES_TOKEN
-	GPG_FEATURE_SIGNING_KEY
-	GPG_FEATURE_SIGNING_KEYID
+#	GPG_FEATURE_SIGNING_KEY
+#	GPG_FEATURE_SIGNING_KEYID
 	GPG_STAGINGPRODUCTION_SIGNING_KEY
 	GPG_STAGINGPRODUCTION_SIGNING_KEYID
 )
@@ -53,10 +53,10 @@ for org in ${ORGS[@]}; do
 
 			# Select target branch
 			case "${var}" in
-				"RELEASES_TOKEN" | "GPG_STAGINGPRODUCTION_SIGNING_KEY" |"GPG_STAGINGPRODUCTION_SIGNING_KEYID")
-					# Target is bullseye
-					target_branch="hybris-mobian/bullseye/*"
-					;;
+#				"RELEASES_TOKEN" | "GPG_STAGINGPRODUCTION_SIGNING_KEY" |"GPG_STAGINGPRODUCTION_SIGNING_KEYID")
+#					# Target is bullseye
+#					target_branch="bullseye"
+#					;;
 				*)
 					target_branch=""
 					;;
