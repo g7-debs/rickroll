@@ -55,7 +55,7 @@ for org in ${ORGS[@]}; do
 			case "${var}" in
 				"RELEASES_TOKEN" | "GPG_STAGINGPRODUCTION_SIGNING_KEY" |"GPG_STAGINGPRODUCTION_SIGNING_KEYID")
 					# Target is bullseye
-					target_branch="bullseye"
+					target_branch="hybris-mobian/bullseye/*"
 					;;
 				*)
 					target_branch=""
