@@ -62,6 +62,17 @@ for org in ${ORGS[@]}; do
 					;;
 			esac
 
+			# Properly escape gpg keys
+			case "${var}" in
+				"GPG_FEATURE_SIGNING_KEY" | "GPG_STAGINGPRODUCTION_SIGNING_KEY")
+					target_var=$(echo "${!var}" | awk 1 ORS='\\n')
+					target_var="\"\$(echo -e '${target_var}')\""
+					;;
+				*)
+					target_var="${!var}"
+					;;
+			esac
+
 			echo "Setting ${var} for repo ${repo} (target_branch is ${target_branch})"
 			curl -X POST \
 				-H "Content-Type: application/json" \
@@ -70,7 +81,7 @@ for org in ${ORGS[@]}; do
 				-d @<(cat <<EOF
 {
 	"env_var.name" : "${var}",
-	"env_var.value" : "${!var}",
+	"env_var.value" : "${target_var}",
 	"env_var.public" : false,
 	"env_var.branch" : "${target_branch}"
 }
