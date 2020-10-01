@@ -40,9 +40,13 @@ _TRAVIS_AUTH_TOKEN=$(grep -oP 'access_token: .+' ~/.travis/config.yml | awk '{ p
 for org in ${ORGS[@]}; do
 	repos=$(travis repos --pro -o ${org} -a --no-interactive)
 	for repo in ${repos}; do
-		if [ "${repo}" == "hybris-mobian-releng/rickroll" ]; then
-			continue
-		fi
+		case "${repo}" in
+			"hybris-mobian-releng/rickroll" | "hybris-mobian-releng/docker-images" | "hybris-mobian-releng/build-snippets")
+				# Skip
+				echo "Skipping ${repo}..."
+				continue
+				;;
+		esac
 
 		travis env --pro clear --repo ${repo}
 
