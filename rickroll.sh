@@ -7,6 +7,8 @@ VARIABLES=(
 #	GPG_FEATURE_SIGNING_KEYID
 	GPG_STAGINGPRODUCTION_SIGNING_KEY
 	GPG_STAGINGPRODUCTION_SIGNING_KEYID
+	INTAKE_SSH_USER
+	INTAKE_SSH_KEY
 )
 
 declare -a ORGS
@@ -66,9 +68,9 @@ for org in ${ORGS[@]}; do
 					;;
 			esac
 
-			# Properly escape gpg keys
+			# Properly escape gpg and ssh keys
 			case "${var}" in
-				"GPG_FEATURE_SIGNING_KEY" | "GPG_STAGINGPRODUCTION_SIGNING_KEY")
+				"GPG_FEATURE_SIGNING_KEY" | "GPG_STAGINGPRODUCTION_SIGNING_KEY" | "INTAKE_SSH_KEY")
 					target_var=$(echo "${!var}" | awk 1 ORS='\\n')
 					target_var="\\\"\$(echo -e '${target_var}')\\\""
 					;;
