@@ -1,0 +1,31 @@
+---
+kind: pipeline
+type: docker
+name: rickroll
+
+steps:
+- name: var_update
+  image: hybrismobian/build-essential:bullseye
+  environment:
+    ADD_MISSING_ONLY: yes
+    DRONE_ACCESS_TOKEN:
+      from_secret: DRONE_ACCESS_TOKEN
+    RELEASES_TOKEN:
+      from_secret: RELEASES_TOKEN
+    GPG_STAGINGPRODUCTION_SIGNING_KEY:
+      from_secret: GPG_STAGINGPRODUCTION_SIGNING_KEY
+    GPG_STAGINGPRODUCTION_SIGNING_KEYID:
+      from_secret: INTAKE_SSH_USER
+    INTAKE_SSH_USER:
+      from_secret: INTAKE_SSH_USER
+    INTAKE_SSH_KEY:
+      from_secret: INTAKE_SSH_KEY
+  commands:
+  - wget -O- https://github.com/drone/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar zx
+  - install -t /usr/local/bin drone
+  - ./rickroll.sh
+---
+kind: signature
+hmac: c2028ce10f446ace62f1ecde6f9ebbcdb0e3028de4f3da41db34c8639f2101d7
+
+...
