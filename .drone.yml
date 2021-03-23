@@ -5,7 +5,7 @@ name: rickroll
 
 steps:
 - name: var_update
-  image: hybrismobian/build-essential:bullseye
+  image: quay.io/droidian/build-essential:bullseye-amd64
   environment:
     ADD_MISSING_ONLY: yes
     DRONE_ACCESS_TOKEN:

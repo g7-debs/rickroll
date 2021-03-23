@@ -16,9 +16,9 @@ VARIABLES=(
 
 declare -a ORGS
 ORGS=(
-	hybris-mobian-images
-	hybris-mobian
-	hybris-mobian-releng
+	droidian-images
+	droidian
+	droidian-releng
 )
 
 error() {
