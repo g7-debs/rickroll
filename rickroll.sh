@@ -16,9 +16,7 @@ VARIABLES=(
 
 declare -a ORGS
 ORGS=(
-	droidian-images
-	droidian
-	droidian-releng
+	g7-debs
 )
 
 error() {
@@ -43,7 +41,7 @@ for org in ${ORGS[@]}; do
 	for repo in ${repos}; do
 		echo "Processing ${repo}..."
 		case "${repo}" in
-			"hybris-mobian-releng/rickroll" | "hybris-mobian-releng/docker-images" | "hybris-mobian-releng/build-snippets")
+			"g7-debs/rickroll" | "g7-debs/docker-images" | "g7-debs/build-snippets")
 				# Skip
 				echo "Skipping ${repo}..."
 				continue
